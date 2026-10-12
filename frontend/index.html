@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Amazon Shopping Mall - Everything You Need Delivered Fast</title>
+  <meta name="description" content="Shop millions of products at Amazon Shopping Mall. Great deals on Electronics, Fashion, Home, Beauty, Sports and more with Fast Prime Delivery.">
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <!-- FontAwesome for Amazon-style crisp icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Top Announcement Bar -->
+  <div class="top-announcement">
+    <div class="announcement-content">
+      <span><i class="fa-solid fa-bolt"></i> <strong>AMAZON PRIME MEGA DAYS:</strong> Up to 60% OFF on Top Brands &bull; Free Next-Day Delivery on orders over $25!</span>
+      <div class="top-links">
+        <a href="#mall-section" id="btn-deals-banner"><i class="fa-solid fa-fire"></i> Today's Deals</a>
+        <a href="#customer-service"><i class="fa-regular fa-circle-question"></i> Help 24/7</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Amazon Header -->
+  <header class="main-header" id="header">
+    <div class="header-inner">
+      <!-- Logo -->
+      <a href="#" class="brand-logo" aria-label="Amazon Mall Home">
+        <span class="logo-name">amazon<span class="logo-accent">mall</span></span>
+        <span class="logo-prime"><i class="fa-solid fa-check"></i>prime</span>
+      </a>
+
+      <!-- Deliver Location Button -->
+      <div class="delivery-location" id="location-picker-btn" role="button" tabindex="0" title="Change delivery destination">
+        <div class="location-icon"><i class="fa-solid fa-location-dot"></i></div>
+        <div class="location-text">
+          <span class="loc-label">Deliver to</span>
+          <span class="loc-val" id="current-location">New York 10001</span>
+        </div>
+      </div>
+
+      <!-- Search Bar -->
+      <div class="header-search">
+        <div class="search-category-dropdown">
+          <select id="search-category-select" aria-label="Select department">
+            <option value="All">All Departments</option>
+            <option value="Electronics">Electronics</option>
+            <option value="Fashion">Fashion & Apparel</option>
+            <option value="Home & Kitchen">Home & Kitchen</option>
+            <option value="Beauty">Beauty & Personal Care</option>
+            <option value="Sports">Sports & Fitness</option>
+            <option value="Books">Books & Media</option>
+            <option value="Grocery">Food & Grocery</option>
+          </select>
+          <i class="fa-solid fa-caret-down dropdown-arrow"></i>
+        </div>
+        <input 
+          type="text" 
+          id="search-input" 
+          placeholder="Search Amazon Mall (e.g., Wireless headphones, 4K Smart TV, sneakers...)" 
+          autocomplete="off"
+          aria-label="Search Amazon Mall"
+        >
+        <button type="button" id="search-clear-btn" class="search-clear" aria-label="Clear search" style="display: none;">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+        <button type="button" id="search-submit-btn" class="search-btn" aria-label="Submit search">
+          <i class="fa-solid fa-magnifying-glass"></i>
+        </button>
+      </div>
+
+      <!-- Header Right Actions -->
+      <div class="header-actions">
+        <!-- Language / Currency -->
+        <div class="header-item lang-currency" id="currency-toggle" title="Currency: USD ($)">
+          <span class="flag-icon">🇺🇸</span>
+          <span class="lang-code">EN &bull; $</span>
+          <i class="fa-solid fa-caret-down"></i>
+        </div>
+
+        <!-- Account / Sign-in -->
+        <div class="header-item account-item" id="account-btn" role="button" tabindex="0">
+          <span class="sub-text">Hello, Guest</span>
+          <span class="main-text">Account &amp; Lists <i class="fa-solid fa-caret-down"></i></span>
+        </div>
+
+        <!-- Returns & Orders -->
+        <div class="header-item orders-item" id="orders-btn" role="button" tabindex="0">
+          <span class="sub-text">Returns</span>
+          <span class="main-text">&amp; Orders</span>
+        </div>
+
+        <!-- Wishlist -->
+        <div class="header-item wishlist-item" id="wishlist-btn" role="button" tabindex="0" title="Your Wishlist">
+          <i class="fa-regular fa-heart"></i>
+          <span class="badge" id="wishlist-count">0</span>
+        </div>
+
+        <!-- Supabase Database Status / Config -->
+        <div class="header-item supabase-item" id="supabase-toggle-btn" role="button" tabindex="0" title="Supabase Database Configuration">
+          <span class="sub-text">Database</span>
+          <span class="main-text db-pill" id="header-db-status"><i class="fa-solid fa-database"></i> Supabase</span>
+        </div>
+
+        <!-- Shopping Cart -->
+        <div class="header-item cart-item" id="cart-open-btn" role="button" tabindex="0" aria-label="Shopping Cart">
+          <div class="cart-icon-wrapper">
+            <i class="fa-solid fa-cart-shopping"></i>
+            <span class="cart-count" id="cart-count">0</span>
+          </div>
+          <span class="cart-text">Cart</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Sub Navigation Bar (Departments Bar) -->
+  <nav class="sub-nav" id="sub-nav">
+    <div class="sub-nav-inner">
+      <button class="nav-drawer-btn" id="all-departments-btn">
+        <i class="fa-solid fa-bars"></i>
+        <span>All</span>
+      </button>
+
+      <ul class="quick-nav-links">
+        <li><a href="#mall-section" class="active-category" data-cat="All">All Products</a></li>
+        <li><a href="#mall-section" data-cat="deals"><i class="fa-solid fa-bolt text-gold"></i> Today's Deals</a></li>
+        <li><a href="#mall-section" data-cat="Electronics">Electronics</a></li>
+        <li><a href="#mall-section" data-cat="Fashion">Fashion &amp; Style</a></li>
+        <li><a href="#mall-section" data-cat="Home & Kitchen">Home &amp; Kitchen</a></li>
+        <li><a href="#mall-section" data-cat="Beauty">Beauty &amp; Care</a></li>
+        <li><a href="#mall-section" data-cat="Sports">Sports &amp; Outdoors</a></li>
+        <li><a href="#mall-section" data-cat="Books">Books</a></li>
+        <li><a href="#mall-section" data-cat="Grocery">Grocery</a></li>
+      </ul>
+
+      <div class="sub-nav-right">
+        <span class="prime-banner-tag"><i class="fa-solid fa-truck-fast"></i> Prime Free 1-Day Delivery</span>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Carousel & Promo Banners -->
+  <section class="hero-section">
+    <div class="hero-carousel" id="hero-carousel">
+      <!-- Slide 1 -->
+      <div class="hero-slide active" style="background: linear-gradient(90deg, #0f2027 0%, #203a43 50%, #2c5364 100%);">
+        <div class="slide-content">
+          <span class="slide-badge"><i class="fa-solid fa-fire"></i> PRIME BIG DEAL DAYS</span>
+          <h1 class="slide-title">Mega Savings on Tech, Gadgets &amp; Essentials</h1>
+          <p class="slide-desc">Save up to 55% on latest noise-cancelling headphones, 4K OLED TVs, smart watches, and laptops.</p>
+          <div class="slide-cta-group">
+            <button class="btn btn-primary" onclick="filterByCategory('Electronics')">Shop Electronics <i class="fa-solid fa-arrow-right"></i></button>
+            <button class="btn btn-outline" onclick="filterByDeals()">View All Deals</button>
+          </div>
+        </div>
+        <div class="slide-image">
+          <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=800&q=80" alt="Headphones Deals" onerror="this.src='https://images.unsplash.com/photo-1546868871-7041f2a55e12?auto=format&fit=crop&w=800&q=80'">
+        </div>
+      </div>
+
+      <!-- Slide 2 -->
+      <div class="hero-slide" style="background: linear-gradient(90deg, #1f1c2c 0%, #928dab 100%);">
+        <div class="slide-content">
+          <span class="slide-badge style-gold"><i class="fa-solid fa-gem"></i> TRENDING COLLECTION</span>
+          <h2 class="slide-title">Autumn &amp; Winter Fashion Drops</h2>
+          <p class="slide-desc">Upgrade your wardrobe with stylish sneakers, wool coats, smart watches, and luxury designer bags.</p>
+          <div class="slide-cta-group">
+            <button class="btn btn-primary" onclick="filterByCategory('Fashion')">Explore Fashion <i class="fa-solid fa-arrow-right"></i></button>
+          </div>
+        </div>
+        <div class="slide-image">
+          <img src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=800&q=80" alt="Fashion Deals" onerror="this.src='https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=800&q=80'">
+        </div>
+      </div>
+
+      <!-- Slide 3 -->
+      <div class="hero-slide" style="background: linear-gradient(90deg, #0b486b 0%, #f56217 100%);">
+        <div class="slide-content">
+          <span class="slide-badge"><i class="fa-solid fa-house"></i> HOME &amp; SMART LIVING</span>
+          <h2 class="slide-title">Transform Your Space with Smart Living</h2>
+          <p class="slide-desc">Discover robotic vacuums, barista espresso machines, ergonomic chairs and aesthetic room lighting.</p>
+          <div class="slide-cta-group">
+            <button class="btn btn-primary" onclick="filterByCategory('Home & Kitchen')">Upgrade Home <i class="fa-solid fa-arrow-right"></i></button>
+          </div>
+        </div>
+        <div class="slide-image">
+          <img src="https://images.unsplash.com/photo-1556911220-e15b29be8c8f?auto=format&fit=crop&w=800&q=80" alt="Home Essentials" onerror="this.src='https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=800&q=80'">
+        </div>
+      </div>
+
+      <!-- Carousel Navigation Arrows -->
+      <button class="carousel-control prev" id="carousel-prev" aria-label="Previous slide"><i class="fa-solid fa-chevron-left"></i></button>
+      <button class="carousel-control next" id="carousel-next" aria-label="Next slide"><i class="fa-solid fa-chevron-right"></i></button>
+
+      <!-- Carousel Indicators -->
+      <div class="carousel-dots" id="carousel-dots">
+        <span class="dot active" data-index="0"></span>
+        <span class="dot" data-index="1"></span>
+        <span class="dot" data-index="2"></span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Amazon Feature Grid Cards (Popular departments overview) -->
+  <section class="feature-departments">
+    <div class="dept-card" onclick="filterByCategory('Electronics')">
+      <h3>Top Electronics &amp; Accessories</h3>
+      <div class="dept-img-wrap">
+        <img src="https://images.unsplash.com/photo-1546868871-7041f2a55e12?auto=format&fit=crop&w=400&q=80" alt="Smartwatch">
+      </div>
+      <span class="dept-link">Shop gadgets <i class="fa-solid fa-angle-right"></i></span>
+    </div>
+
+    <div class="dept-card" onclick="filterByCategory('Fashion')">
+      <h3>Fashion Trends Under $60</h3>
+      <div class="dept-img-wrap">
+        <img src="https://images.unsplash.com/photo-1525966222134-fcfa99b8ae77?auto=format&fit=crop&w=400&q=80" alt="Shoes and Apparel">
+      </div>
+      <span class="dept-link">See styles <i class="fa-solid fa-angle-right"></i></span>
+    </div>
+
+    <div class="dept-card" onclick="filterByCategory('Home & Kitchen')">
+      <h3>Refresh Your Home &amp; Kitchen</h3>
+      <div class="dept-img-wrap">
+        <img src="https://images.unsplash.com/photo-1584269600464-37b1b58a9fe7?auto=format&fit=crop&w=400&q=80" alt="Kitchenware">
+      </div>
+      <span class="dept-link">Explore decor <i class="fa-solid fa-angle-right"></i></span>
+    </div>
+
+    <div class="dept-card" onclick="filterByDeals()">
+      <h3>Special Limited Time Deals</h3>
+      <div class="dept-img-wrap deal-special">
+        <span class="corner-deal-tag"><i class="fa-solid fa-bolt"></i> Deal</span>
+        <img src="https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?auto=format&fit=crop&w=400&q=80" alt="Camera and deals">
+      </div>
+      <span class="dept-link">Browse deals <i class="fa-solid fa-angle-right"></i></span>
+    </div>
+  </section>
+
+  <!-- Main Shopping Mall Workspace: Filter Sidebar + Products Grid -->
+  <main class="mall-main-container" id="mall-section">
+    <!-- Filter Sidebar -->
+    <aside class="mall-sidebar" id="mall-sidebar">
+      <div class="sidebar-header">
+        <h2><i class="fa-solid fa-sliders"></i> Filters</h2>
+        <button id="reset-filters-btn" class="reset-link">Clear All</button>
+      </div>
+
+      <!-- Prime Filter -->
+      <div class="filter-group prime-filter-box">
+        <label class="custom-checkbox">
+          <input type="checkbox" id="filter-prime-checkbox">
+          <span class="checkmark"></span>
+          <span class="prime-tag-text"><i class="fa-solid fa-check"></i><strong>prime</strong> Eligible</span>
+        </label>
+      </div>
+
+      <!-- Category Filter -->
+      <div class="filter-group">
+        <h4 class="filter-title">Department</h4>
+        <ul class="filter-list" id="sidebar-category-list">
+          <!-- Dynamically populated or static fast links -->
+          <li><button class="cat-pill active" data-category="All">All Departments</button></li>
+          <li><button class="cat-pill" data-category="Electronics"><i class="fa-solid fa-laptop"></i> Electronics</button></li>
+          <li><button class="cat-pill" data-category="Fashion"><i class="fa-solid fa-shirt"></i> Fashion &amp; Apparel</button></li>
+          <li><button class="cat-pill" data-category="Home & Kitchen"><i class="fa-solid fa-kitchen-set"></i> Home &amp; Kitchen</button></li>
+          <li><button class="cat-pill" data-category="Beauty"><i class="fa-solid fa-spa"></i> Beauty &amp; Care</button></li>
+          <li><button class="cat-pill" data-category="Sports"><i class="fa-solid fa-dumbbell"></i> Sports &amp; Outdoors</button></li>
+          <li><button class="cat-pill" data-category="Books"><i class="fa-solid fa-book-open"></i> Books &amp; Media</button></li>
+          <li><button class="cat-pill" data-category="Grocery"><i class="fa-solid fa-basket-shopping"></i> Food &amp; Grocery</button></li>
+        </ul>
+      </div>
+
+      <!-- Price Range Filter -->
+      <div class="filter-group">
+        <h4 class="filter-title">Price Range</h4>
+        <div class="price-slider-wrap">
+          <div class="price-inputs">
+            <div class="price-input-box">
+              <span>$</span>
+              <input type="number" id="min-price-input" value="0" min="0" max="2000" aria-label="Minimum price">
+            </div>
+            <span class="price-divider">to</span>
+            <div class="price-input-box">
+              <span>$</span>
+              <input type="number" id="max-price-input" value="1500" min="0" max="2000" aria-label="Maximum price">
+            </div>
+          </div>
+          <button class="btn btn-apply-price" id="apply-price-btn">Apply Price</button>
+        </div>
+      </div>
+
+      <!-- Customer Reviews Filter -->
+      <div class="filter-group">
+        <h4 class="filter-title">Customer Reviews</h4>
+        <ul class="filter-list star-filter-list">
+          <li>
+            <button class="star-rating-btn" data-min-rating="4">
+              <span class="stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-regular fa-star"></i></span>
+              <span class="rating-label">&amp; Up</span>
+            </button>
+          </li>
+          <li>
+            <button class="star-rating-btn" data-min-rating="3">
+              <span class="stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-regular fa-star"></i><i class="fa-regular fa-star"></i></span>
+              <span class="rating-label">&amp; Up</span>
+            </button>
+          </li>
+          <li>
+            <button class="star-rating-btn" data-min-rating="0">
+              <span class="rating-label">All Ratings</span>
+            </button>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Deals / Discounts -->
+      <div class="filter-group">
+        <h4 class="filter-title">Deals &amp; Discounts</h4>
+        <label class="custom-checkbox">
+          <input type="checkbox" id="filter-deals-only">
+          <span class="checkmark"></span>
+          <span>Today's Deals Only</span>
+        </label>
+        <label class="custom-checkbox">
+          <input type="checkbox" id="filter-in-stock-only" checked>
+          <span class="checkmark"></span>
+          <span>In Stock Only</span>
+        </label>
+      </div>
+
+      <!-- Free Shipping Assurance Card -->
+      <div class="prime-perk-card">
+        <div class="perk-icon"><i class="fa-solid fa-shield-halved"></i></div>
+        <div class="perk-body">
+          <h5>Amazon A-to-z Guarantee</h5>
+          <p>Secure transactions, hassle-free 30-day returns &amp; 24/7 dedicated customer care.</p>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Product Catalog Grid Section -->
+    <section class="mall-content">
+      <!-- Catalog Controls Bar -->
+      <div class="catalog-header-bar">
+        <div class="results-stats">
+          <span id="results-count-text">Showing <strong>24</strong> products</span>
+          <span class="active-query-tag" id="active-query-badge" style="display: none;"></span>
+        </div>
+
+        <!-- Sort and View controls -->
+        <div class="catalog-controls">
+          <label for="sort-select" class="sort-label">Sort by:</label>
+          <select id="sort-select" class="sort-select">
+            <option value="featured">Featured &amp; Recommended</option>
+            <option value="price-low">Price: Low to High</option>
+            <option value="price-high">Price: High to Low</option>
+            <option value="rating">Avg. Customer Review</option>
+            <option value="discount">Biggest Discount</option>
+          </select>
+
+          <!-- Mobile filter drawer toggle -->
+          <button class="mobile-filter-btn" id="mobile-filter-open-btn">
+            <i class="fa-solid fa-sliders"></i> Filters
+          </button>
+        </div>
+      </div>
+
+      <!-- Quick Category Chips Bar -->
+      <div class="quick-chips-scroll">
+        <button class="chip active" data-chip="All">All</button>
+        <button class="chip" data-chip="deals"><i class="fa-solid fa-tag"></i> Big Deals</button>
+        <button class="chip" data-chip="Electronics">Laptops &amp; Phones</button>
+        <button class="chip" data-chip="Fashion">Shoes &amp; Apparel</button>
+        <button class="chip" data-chip="Home & Kitchen">Kitchen Appliances</button>
+        <button class="chip" data-chip="Beauty">Skincare &amp; Scents</button>
+        <button class="chip" data-chip="Sports">Fitness Equipment</button>
+        <button class="chip" data-chip="Books">Bestselling Books</button>
+        <button class="chip" data-chip="Grocery">Snacks &amp; Beverages</button>
+      </div>
+
+      <!-- Product Cards Grid -->
+      <div class="products-grid" id="products-grid">
+        <!-- Rendered by JavaScript -->
+      </div>
+
+      <!-- Empty State View (Shown when no matching products) -->
+      <div class="empty-state" id="empty-state" style="display: none;">
+        <div class="empty-icon"><i class="fa-solid fa-box-open"></i></div>
+        <h3>No matching products found</h3>
+        <p>Try clearing some filters, searching for a different keyword, or checking your spelling.</p>
+        <button class="btn btn-primary" id="empty-reset-btn">Reset All Filters</button>
+      </div>
+    </section>
+  </main>
+
+  <!-- Quick View Product Modal -->
+  <div class="modal-backdrop" id="quick-view-modal" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <button class="modal-close-btn" id="quick-view-close-btn" aria-label="Close modal">&times;</button>
+      <div class="quick-view-content" id="quick-view-body">
+        <!-- Rendered dynamically -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Shopping Cart Slide-out Drawer -->
+  <div class="cart-drawer-overlay" id="cart-drawer-overlay"></div>
+  <aside class="cart-drawer" id="cart-drawer" aria-label="Shopping Cart Drawer">
+    <div class="cart-drawer-header">
+      <div class="cart-header-title">
+        <i class="fa-solid fa-cart-shopping"></i>
+        <h3>Shopping Cart (<span id="cart-drawer-count">0</span>)</h3>
+      </div>
+      <button class="cart-close-btn" id="cart-close-btn" aria-label="Close cart">&times;</button>
+    </div>
+
+    <!-- Free Delivery Progress Bar -->
+    <div class="free-shipping-bar">
+      <div class="shipping-info">
+        <i class="fa-solid fa-truck-fast"></i>
+        <span id="shipping-progress-text">Add $25.00 more for <strong>FREE Prime Delivery</strong></span>
+      </div>
+      <div class="progress-track">
+        <div class="progress-fill" id="shipping-progress-fill" style="width: 0%;"></div>
+      </div>
+    </div>
+
+    <!-- Cart Items List -->
+    <div class="cart-items-container" id="cart-items-list">
+      <!-- Items dynamically populated -->
+    </div>
+
+    <!-- Cart Footer & Checkout -->
+    <div class="cart-drawer-footer" id="cart-footer">
+      <div class="cart-summary-line">
+        <span>Subtotal:</span>
+        <span class="subtotal-amount" id="cart-subtotal">$0.00</span>
+      </div>
+      <div class="cart-summary-line small">
+        <span>Estimated Tax (5%):</span>
+        <span id="cart-tax">$0.00</span>
+      </div>
+      <div class="cart-summary-line small">
+        <span>Shipping:</span>
+        <span id="cart-shipping" class="text-green">FREE</span>
+      </div>
+      <div class="cart-summary-line total-line">
+        <span>Total Order:</span>
+        <span class="total-amount" id="cart-total">$0.00</span>
+      </div>
+
+      <button class="btn btn-checkout" id="checkout-btn">
+        <i class="fa-solid fa-lock"></i> Proceed to Checkout (<span id="checkout-btn-items">0</span> items)
+      </button>
+
+      <button class="btn btn-secondary-cart" id="clear-cart-btn">
+        <i class="fa-regular fa-trash-can"></i> Clear Cart
+      </button>
+    </div>
+  </aside>
+
+  <!-- Checkout Simulation Modal -->
+  <div class="modal-backdrop" id="checkout-modal" aria-hidden="true">
+    <div class="modal-dialog checkout-dialog">
+      <button class="modal-close-btn" id="checkout-modal-close-btn">&times;</button>
+      <div class="checkout-content">
+        <div class="checkout-header">
+          <div class="checkout-badge"><i class="fa-solid fa-shield-check"></i> Amazon Secure Checkout</div>
+          <h2>Review &amp; Place Your Order</h2>
+        </div>
+
+        <form id="checkout-form" class="checkout-form">
+          <div class="form-section">
+            <h4>1. Shipping Address</h4>
+            <div class="form-row">
+              <input type="text" placeholder="Full Name" required value="Bhavesh Kumar">
+              <input type="tel" placeholder="Phone Number" required value="+1 (555) 234-5678">
+            </div>
+            <div class="form-row">
+              <input type="text" placeholder="Street Address" required value="742 Evergreen Terrace, Apt 4B">
+            </div>
+            <div class="form-row three-col">
+              <input type="text" placeholder="City" required value="Seattle">
+              <input type="text" placeholder="State / Region" required value="WA">
+              <input type="text" placeholder="ZIP Code" required value="98101">
+            </div>
+          </div>
+
+          <div class="form-section">
+            <h4>2. Payment Method</h4>
+            <div class="payment-options">
+              <label class="payment-card selected">
+                <input type="radio" name="payment_method" value="card" checked>
+                <div class="payment-details">
+                  <span class="pay-title"><i class="fa-brands fa-cc-visa"></i> Amazon Prime Visa ending in 4242</span>
+                  <span class="pay-sub">Earn 5% Back on this purchase</span>
+                </div>
+              </label>
+              <label class="payment-card">
+                <input type="radio" name="payment_method" value="cod">
+                <div class="payment-details">
+                  <span class="pay-title"><i class="fa-solid fa-money-bill-wave"></i> Cash on Delivery / Pay on Delivery</span>
+                  <span class="pay-sub">Pay when package arrives at your doorstep</span>
+                </div>
+              </label>
+            </div>
+          </div>
+
+          <div class="order-final-summary">
+            <div class="summary-row">
+              <span>Items Total:</span>
+              <span id="modal-subtotal">$0.00</span>
+            </div>
+            <div class="summary-row">
+              <span>Prime Next-Day Delivery:</span>
+              <span class="text-green">FREE</span>
+            </div>
+            <div class="summary-row">
+              <span>Estimated Tax:</span>
+              <span id="modal-tax">$0.00</span>
+            </div>
+            <div class="summary-row total">
+              <span>Order Grand Total:</span>
+              <span class="total-accent" id="modal-grand-total">$0.00</span>
+            </div>
+          </div>
+
+          <button type="submit" class="btn btn-place-order" id="confirm-order-btn">
+            <i class="fa-solid fa-bag-shopping"></i> Place Your Amazon Order
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Order Success Confirmation Modal -->
+  <div class="modal-backdrop" id="order-success-modal" aria-hidden="true">
+    <div class="modal-dialog success-dialog">
+      <div class="success-content">
+        <div class="success-icon-wrap">
+          <i class="fa-solid fa-circle-check"></i>
+        </div>
+        <h2>Thank You, Your Order Is Placed!</h2>
+        <p class="order-id">Order ID: <strong id="generated-order-id">AMZ-9824-7123</strong></p>
+        <p class="order-msg">We've sent an order confirmation email and tracking details to your inbox. Your package is scheduled for <strong>Prime Guaranteed Tomorrow Delivery</strong>.</p>
+        
+        <div class="success-details-box">
+          <div class="detail-item">
+            <i class="fa-solid fa-truck-ramp-box"></i>
+            <div>
+              <strong>Delivery Status:</strong>
+              <span>Preparing for dispatch</span>
+            </div>
+          </div>
+          <div class="detail-item">
+            <i class="fa-solid fa-location-dot"></i>
+            <div>
+              <strong>Delivering To:</strong>
+              <span>Seattle, WA (Prime 1-Day)</span>
+            </div>
+          </div>
+        </div>
+
+        <button class="btn btn-primary" id="continue-shopping-btn">
+          <i class="fa-solid fa-arrow-left"></i> Continue Shopping Amazon Mall
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Supabase Database Connection Modal -->
+  <div class="modal-backdrop" id="supabase-modal" aria-hidden="true">
+    <div class="modal-dialog supabase-dialog">
+      <button class="modal-close-btn" id="supabase-modal-close-btn">&times;</button>
+      <div class="supabase-modal-content">
+        <div class="supabase-header">
+          <div class="supabase-badge"><i class="fa-solid fa-bolt"></i> Backend Integration</div>
+          <h2>Connect Your Supabase Database</h2>
+          <p>Link your Amazon Mall application to a real PostgreSQL cloud database to store products and real customer orders.</p>
+        </div>
+
+        <div class="supabase-status-banner" id="supabase-status-banner">
+          <i class="fa-solid fa-circle-dot" id="supabase-status-icon"></i>
+          <div>
+            <strong id="supabase-status-title">Status: Demo Mode (LocalStorage)</strong>
+            <p id="supabase-status-desc">Connect your Supabase project URL &amp; Anon Key below to enable cloud database persistence.</p>
+          </div>
+        </div>
+
+        <form id="supabase-config-form" class="supabase-form">
+          <div class="form-group">
+            <label for="input-supabase-url">Supabase Project URL</label>
+            <input type="url" id="input-supabase-url" placeholder="https://your-project-id.supabase.co" required>
+            <small>Find this in your Supabase Dashboard &gt; Project Settings &gt; API</small>
+          </div>
+
+          <div class="form-group">
+            <label for="input-supabase-key">Supabase Public Anon Key</label>
+            <input type="password" id="input-supabase-key" placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..." required>
+            <small>Find this under "Project API keys" &gt; <code>anon</code> / <code>public</code></small>
+          </div>
+
+          <div class="supabase-actions-row">
+            <button type="submit" class="btn btn-primary" id="save-supabase-btn">
+              <i class="fa-solid fa-floppy-disk"></i> Save &amp; Connect
+            </button>
+            <button type="button" class="btn btn-outline-dark" id="test-supabase-btn">
+              <i class="fa-solid fa-vial-check"></i> Test Connection
+            </button>
+          </div>
+        </form>
+
+        <div class="supabase-database-tools">
+          <h4><i class="fa-solid fa-cloud-arrow-up"></i> Database Actions</h4>
+          <div class="db-actions-grid">
+            <div class="db-action-card">
+              <h5>1. Create Tables in Supabase</h5>
+              <p>Run the included schema file <code>supabase_schema.sql</code> in your Supabase SQL Editor.</p>
+              <button class="btn-sm btn-subtle" id="copy-sql-btn"><i class="fa-regular fa-copy"></i> Copy SQL Query</button>
+            </div>
+            <div class="db-action-card">
+              <h5>2. Seed 24 Products to Cloud</h5>
+              <p>Upload all default Amazon Mall products to your Supabase <code>products</code> table.</p>
+              <button class="btn-sm btn-primary" id="seed-products-btn"><i class="fa-solid fa-upload"></i> Upload Products</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Customer Service & Features Footer Strip -->
+  <section class="mall-perks" id="customer-service">
+    <div class="perk-box">
+      <i class="fa-solid fa-truck-fast"></i>
+      <div>
+        <h4>Fast, Free Delivery</h4>
+        <p>Free Next-Day delivery on millions of items</p>
+      </div>
+    </div>
+    <div class="perk-box">
+      <i class="fa-solid fa-rotate-left"></i>
+      <div>
+        <h4>Hassle-Free Returns</h4>
+        <p>30 days return window, no questions asked</p>
+      </div>
+    </div>
+    <div class="perk-box">
+      <i class="fa-solid fa-shield-heart"></i>
+      <div>
+        <h4>100% Purchase Protection</h4>
+        <p>Safe and verified payments with A-to-z guarantee</p>
+      </div>
+    </div>
+    <div class="perk-box">
+      <i class="fa-solid fa-headset"></i>
+      <div>
+        <h4>24/7 Dedicated Support</h4>
+        <p>Instant phone and live chat support anytime</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Amazon Multi-Tier Footer -->
+  <footer class="mall-footer">
+    <div class="back-to-top" id="back-to-top-btn" role="button" tabindex="0">
+      Back to top <i class="fa-solid fa-arrow-up"></i>
+    </div>
+
+    <div class="footer-links-grid">
+      <div class="footer-col">
+        <h4>Get to Know Us</h4>
+        <ul>
+          <li><a href="#">About Amazon Mall</a></li>
+          <li><a href="#">Careers &amp; Leadership</a></li>
+          <li><a href="#">Press Releases</a></li>
+          <li><a href="#">Amazon Science</a></li>
+          <li><a href="#">Investor Relations</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Make Money with Us</h4>
+        <ul>
+          <li><a href="#">Sell products on Amazon</a></li>
+          <li><a href="#">Sell on Amazon Business</a></li>
+          <li><a href="#">Become an Affiliate</a></li>
+          <li><a href="#">Advertise Your Products</a></li>
+          <li><a href="#">Self-Publish with Us</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Amazon Payment Products</h4>
+        <ul>
+          <li><a href="#">Amazon Rewards Visa Card</a></li>
+          <li><a href="#">Shop with Points</a></li>
+          <li><a href="#">Reload Your Balance</a></li>
+          <li><a href="#">Amazon Currency Converter</a></li>
+          <li><a href="#">Gift Cards</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Let Us Help You</h4>
+        <ul>
+          <li><a href="#">Amazon and COVID-19</a></li>
+          <li><a href="#">Your Account</a></li>
+          <li><a href="#">Your Orders</a></li>
+          <li><a href="#">Shipping Rates &amp; Policies</a></li>
+          <li><a href="#">Returns &amp; Replacements</a></li>
+          <li><a href="#">Help &amp; Customer Care</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <div class="footer-brand-row">
+        <span class="footer-logo">amazon<span class="logo-accent">mall</span></span>
+        <div class="footer-selectors">
+          <button class="footer-select-btn"><i class="fa-solid fa-globe"></i> English</button>
+          <button class="footer-select-btn">$ USD - U.S. Dollar</button>
+          <button class="footer-select-btn">🇺🇸 United States</button>
+        </div>
+      </div>
+      <p class="copyright">&copy; 2026 Amazon Mall, Inc. or its affiliates. Built for Bhavesh &bull; Modern Interactive E-Commerce Experience.</p>
+    </div>
+  </footer>
+
+  <!-- Toast Notification System -->
+  <div class="toast-container" id="toast-container"></div>
+
+  <!-- Mobile Bottom Navigation Bar -->
+  <nav class="mobile-bottom-nav">
+    <a href="#" class="mobile-nav-link active" id="mob-home-btn">
+      <i class="fa-solid fa-house"></i>
+      <span>Home</span>
+    </a>
+    <a href="#mall-section" class="mobile-nav-link" id="mob-shop-btn">
+      <i class="fa-solid fa-magnifying-glass"></i>
+      <span>Browse</span>
+    </a>
+    <a href="#mall-section" class="mobile-nav-link" id="mob-deals-btn" onclick="filterByDeals()">
+      <i class="fa-solid fa-bolt"></i>
+      <span>Deals</span>
+    </a>
+    <button class="mobile-nav-link" id="mob-wishlist-btn">
+      <i class="fa-regular fa-heart"></i>
+      <span>Saved</span>
+    </button>
+    <button class="mobile-nav-link" id="mob-cart-btn">
+      <div class="mob-cart-icon">
+        <i class="fa-solid fa-cart-shopping"></i>
+        <span class="badge" id="mob-cart-badge">0</span>
+      </div>
+      <span>Cart</span>
+    </button>
+  </nav>
+
+  <!-- Environment & Supabase Scripts -->
+  <script src="env.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabaseClient.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
